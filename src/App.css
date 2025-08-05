@@ -1,0 +1,652 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #0a0a0a;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #0a0a0a;
+    background-image: radial-gradient(
+        circle at 20% 50%,
+        #1a1a1a 0%,
+        #0a0a0a 100%
+    );
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen {
+    background: #0a0a0a;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    position: relative;
+    margin-bottom: 3rem;
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen header {
+    display: none;
+}
+
+header h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.flipClock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen .flipClock {
+    gap: 4rem;
+    transform: scale(1.5);
+}
+
+.flipUnitContainer {
+    display: block;
+    position: relative;
+    width: 180px;
+    height: 220px;
+    perspective-origin: 50% 50%;
+    perspective: 1000px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid #333;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen .flipUnitContainer {
+    width: 280px;
+    height: 340px;
+    border-radius: 20px;
+}
+
+.flipUnitContainer::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #333, transparent);
+    z-index: 10;
+    transform: translateY(-50%);
+}
+
+.upperCard,
+.lowerCard {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+}
+
+.upperCard span,
+.lowerCard span {
+    font-size: 8rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    color: #e0e0e0;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen .upperCard span,
+.app.fullscreen .lowerCard span,
+.app.fullscreen .flipCard span {
+    font-size: 12rem;
+}
+
+.upperCard {
+    align-items: flex-end;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.app.fullscreen .upperCard {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.upperCard span {
+    transform: translateY(50%);
+}
+
+.lowerCard {
+    align-items: flex-start;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-top: 1px solid #333;
+}
+
+.app.fullscreen .lowerCard {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.lowerCard span {
+    transform: translateY(-50%);
+}
+
+.flipCard {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    backface-visibility: hidden;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.flipCard span {
+    font-family: 'Inter', sans-serif;
+    font-size: 8rem;
+    font-weight: 900;
+    color: #e0e0e0;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.flipCard.unfold {
+    top: 50%;
+    align-items: flex-start;
+    transform-origin: 50% 0%;
+    transform: rotateX(180deg);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-top: 1px solid #333;
+}
+
+.app.fullscreen .flipCard.unfold {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.flipCard.unfold span {
+    transform: translateY(-50%);
+}
+
+.flipCard.fold {
+    top: 0%;
+    align-items: flex-end;
+    transform-origin: 50% 100%;
+    transform: rotateX(0deg);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.app.fullscreen .flipCard.fold {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.flipCard.fold span {
+    transform: translateY(50%);
+}
+
+.fold {
+    animation: fold 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    transform-style: preserve-3d;
+}
+
+.unfold {
+    animation: unfold 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    transform-style: preserve-3d;
+}
+
+@keyframes fold {
+    0% {
+        transform: rotateX(0deg);
+    }
+    100% {
+        transform: rotateX(-180deg);
+    }
+}
+
+@keyframes unfold {
+    0% {
+        transform: rotateX(180deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+/* Time unit labels */
+.flipUnitContainer::after {
+    content: attr(data-unit);
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen .flipUnitContainer::after {
+    bottom: -3rem;
+    font-size: 1.2rem;
+}
+
+/* Controls Styles */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 4rem;
+    transition: all 0.3s ease;
+}
+
+.app.fullscreen .controls {
+    display: none;
+}
+
+.mode-selector {
+    display: flex;
+    gap: 0;
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.mode-selector button {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    color: #ccc;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mode-selector button:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-selector button.active {
+    color: white;
+    background: linear-gradient(145deg, #333, #222);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.action-buttons button,
+.set-time-toggle {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-buttons button:hover,
+.set-time-toggle:hover {
+    background: linear-gradient(145deg, #333, #222);
+    border-color: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-buttons button:active,
+.set-time-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Time Setter Styles */
+.time-setter {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+}
+
+.app.fullscreen .time-setter {
+    display: none;
+}
+
+.time-setter-header h3 {
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.time-inputs {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.time-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.time-input-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.input-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.increment-btn,
+.decrement-btn {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #333;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.increment-btn:hover,
+.decrement-btn:hover {
+    background: linear-gradient(145deg, #333, #222);
+    border-color: #555;
+}
+
+.time-input-group input {
+    width: 60px;
+    height: 40px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+}
+
+.time-input-group input:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.preset-buttons {
+    margin-bottom: 2rem;
+}
+
+.preset-buttons h4 {
+    margin: 0 0 1rem 0;
+    text-align: center;
+    color: #ccc;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.preset-grid button {
+    padding: 0.5rem;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    color: #ccc;
+    border: 1px solid #333;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.preset-grid button:hover {
+    background: linear-gradient(145deg, #333, #222);
+    color: white;
+    border-color: #555;
+}
+
+.time-setter-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.set-time-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+    color: white;
+    border: 1px solid #555;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.set-time-btn:hover {
+    background: linear-gradient(145deg, #555, #444);
+    border-color: #666;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fullscreen exit hint */
+.fullscreen-hint {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    color: #666;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.app.fullscreen .fullscreen-hint {
+    opacity: 1;
+}
+
+.app.fullscreen .fullscreen-hint:hover {
+    color: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .flipClock {
+        gap: 1rem;
+    }
+
+    .flipUnitContainer {
+        width: 120px;
+        height: 150px;
+    }
+
+    .upperCard span,
+    .lowerCard span,
+    .flipCard span {
+        font-size: 5rem;
+    }
+
+    .app.fullscreen .flipUnitContainer {
+        width: 200px;
+        height: 250px;
+    }
+
+    .app.fullscreen .upperCard span,
+    .app.fullscreen .lowerCard span,
+    .app.fullscreen .flipCard span {
+        font-size: 8rem;
+    }
+
+    .app.fullscreen .flipClock {
+        gap: 2rem;
+        transform: scale(1.2);
+    }
+
+    .controls {
+        padding: 0 1rem;
+        margin-top: 2rem;
+    }
+
+    .mode-selector,
+    .action-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .mode-selector button,
+    .action-buttons button {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .time-inputs {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .preset-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .time-setter {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flipUnitContainer {
+        width: 90px;
+        height: 120px;
+    }
+
+    .upperCard span,
+    .lowerCard span,
+    .flipCard span {
+        font-size: 3.5rem;
+    }
+
+    .app.fullscreen .flipUnitContainer {
+        width: 150px;
+        height: 180px;
+    }
+
+    .app.fullscreen .upperCard span,
+    .app.fullscreen .lowerCard span,
+    .app.fullscreen .flipCard span {
+        font-size: 6rem;
+    }
+
+    .app.fullscreen .flipClock {
+        gap: 1rem;
+        transform: scale(1);
+    }
+
+    .time-setter {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .preset-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+
+    .preset-grid button {
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+}
