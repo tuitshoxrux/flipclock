@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import FlipUnitContainer from './FlipUnitContainer';
 
-const FlipClock = ({ mode, time: timerTime, showSeconds }) => {
+const FlipClock = ({ mode, time: timerTime }) => {
     const [displayState, setDisplayState] = useState({
         hours: 0,
         hoursShuffle: true,
@@ -84,13 +84,13 @@ const FlipClock = ({ mode, time: timerTime, showSeconds }) => {
                 digit={displayState.minutes}
                 shuffle={displayState.minutesShuffle}
             />
-            {showSeconds && (
-                <FlipUnitContainer
-                    unit={'seconds'}
-                    digit={displayState.seconds}
-                    shuffle={displayState.secondsShuffle}
-                />
-            )}
+            (
+            <FlipUnitContainer
+                unit={'seconds'}
+                digit={displayState.seconds}
+                shuffle={displayState.secondsShuffle}
+            />
+            )
         </div>
     );
 };
