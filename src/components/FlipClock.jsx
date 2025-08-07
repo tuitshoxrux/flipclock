@@ -84,13 +84,12 @@ const FlipClock = ({ mode, time: timerTime }) => {
                 digit={displayState.minutes}
                 shuffle={displayState.minutesShuffle}
             />
-            (
+
             <FlipUnitContainer
                 unit={'seconds'}
                 digit={displayState.seconds}
                 shuffle={displayState.secondsShuffle}
             />
-            )
         </div>
     );
 };
